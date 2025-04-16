@@ -3,5 +3,4 @@ node_modules
 function.zip
 run-local.js
 test-typesense.js
-drop-collections.js
 dist

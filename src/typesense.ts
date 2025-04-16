@@ -9,17 +9,6 @@ import { ProductStorage } from './entity/product-storage.entity';
 import { BannerQuestionsAndAnswersResult } from './entity/banner-questions-and-answers-result.entity';
 import { BellySafeHistory } from './entity/belly-safe-history.entity';
 import { Banner } from './entity/banner.entity';
-import { User } from './entity/user.entity';
-import { BannerBellySafe } from './entity/banner-belly-safe.entity';
-import { BannerDesignation } from './entity/banner-designation.entity';
-import { BannerProductCategory } from './entity/banner-product-category.entity';
-import { BannerProduct } from './entity/banner-product.entity';
-import { BannerQuestionsAndAnswers } from './entity/banner-questions-and-answers.entity';
-import { ProductCategoryItem } from './entity/product-category-item.entity';
-import { ProductSuperCategoryDesignationMapping } from './entity/product-super-category-designation-mapping.entity';
-import { ProductCategoryDesignationMapping } from './entity/product-category-designation-mapping.entity';
-import { Calendar } from './entity/calendar.entity';
-import { QuestionnaireStage } from './entity/stage.entity';
 import { EntityTarget } from 'typeorm';
 
 export const typesenseInstance = new Typesense.Client({
@@ -41,26 +30,14 @@ interface EntityCollection {
 // Define entity collections for Typesense
 export const entityCollections: EntityCollection[] = [
   { entity: Banner, name: 'banners' },
-  { entity: BannerBellySafe, name: 'banner_belly_safe' },
   { entity: BellySafeHistory, name: 'belly_safe_history' },
-  { entity: QuestionnaireStage, name: 'questionnaire_stages' },
   { entity: BannerQuestionsAndAnswersResult, name: 'banner_questions_and_answers_results' },
   { entity: ProductStorage, name: 'product_storage' },
-  { entity: BannerProduct, name: 'banner_products' },
   { entity: ProductCategory, name: 'product_categories' },
-  { entity: BannerDesignation, name: 'banner_designations' },
-  { entity: BannerProductCategory, name: 'banner_product_categories' },
-  { entity: BannerQuestionsAndAnswers, name: 'banner_questions_and_answers' },
   { entity: WishListItem, name: 'wishlist_items' },
-  { entity: ProductCategoryItem, name: 'product_category_items' },
   { entity: Event, name: 'events' },
-  {
-    entity: ProductSuperCategoryDesignationMapping,
-    name: 'product_super_category_designation_mappings',
-  },
   { entity: Product, name: 'products' },
   { entity: ProductSuperCategory, name: 'product_super_categories' },
-  { entity: ProductCategoryDesignationMapping, name: 'product_category_designation_mappings' },
   { entity: QuestionsAndAnswersSessions, name: 'questions_and_answers_sessions' },
 ];
 
@@ -106,6 +83,7 @@ export function getSchemaForEntity(entityName: string): any {
       { name: 'asin', type: 'string', optional: true },
       { name: 'categoryItemId', type: 'int32', optional: true },
       { name: 'productStorageId', type: 'int32', optional: true },
+      { name: 'bannerId', type: 'int32', optional: true },
       { name: 'collection', type: 'string', facet: true },
       { name: 'text_content', type: 'string', sort: true, optional: false },
     ],
@@ -133,6 +111,10 @@ export function prepareDataForIndexing(data: any[], name: string): any[] {
         if (name === 'product_storage') {
           preparedItem['productStorageId'] = value;
         }
+        if (name === 'banners') {
+          preparedItem['bannerId'] = value;
+        }
+
         continue;
       }
 

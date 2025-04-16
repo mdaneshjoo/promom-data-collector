@@ -14,7 +14,9 @@ import {
 
 // Initialize Sentry
 Sentry.init({
-  dsn: 'https://1c7c97c048b9955370ddaaa94e71ac01@o1357614.ingest.us.sentry.io/4509157719670784',
+  dsn:
+    process.env.SENTRY_DSN ||
+    'https://1c7c97c048b9955370ddaaa94e71ac01@o1357614.ingest.us.sentry.io/4509157719670784',
   integrations: [Sentry.httpIntegration(), nodeProfilingIntegration()],
   tracesSampleRate: 1.0,
   profilesSampleRate: 1.0,
